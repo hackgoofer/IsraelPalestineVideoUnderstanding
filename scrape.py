@@ -22,7 +22,7 @@ YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
 
-def youtube_search(query, max_results=120, order="relevance", token=None, location=None, location_radius=None):
+def youtube_search(query, max_results=40, order="relevance", token=None, location=None, location_radius=None):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
     videos_map = set()
     videos = []
@@ -34,6 +34,7 @@ def youtube_search(query, max_results=120, order="relevance", token=None, locati
             q=query,
             relevanceLanguage="en",
             type="video",
+            regionCode='IQ',
             pageToken=pageToken,
             order=order,
             part="id,snippet",
@@ -69,7 +70,7 @@ def youtube_search(query, max_results=120, order="relevance", token=None, locati
                     videos_map.add(videoId)
                     videos.append((title, videoId))
 
-        filename = f'palestine_israel/english_videos_{count}.json'
+        filename = f'IQ_40/english_videos_{count}.json'
         with open(filename, 'w') as json_file:
             json.dump(videos, json_file)
         count += 1

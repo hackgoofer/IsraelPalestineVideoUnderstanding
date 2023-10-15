@@ -31,6 +31,9 @@ def upload_video(video):
     data = {
         "index_id": "652b22023c4a426cf3f4f717",  # Specify the unique ID of the index
         "url": f"https://youtu.be/{video}",  # Specify the YouTube URL of the video
+        "metadata": {
+          "youtube": video   
+        }
         # "video_url": "https://www.youtube.com/watch?v=LOtmTmxjFX4"
     }
 
@@ -50,7 +53,7 @@ def upload_video(video):
 
 # Read the data of format [(title, videoID)] from the json files in loaded_video folder
 loaded_videos = []
-for file in glob.glob("ready_to_upload/*.json"):
+for file in glob.glob("IQ_40/english_videos_23.json"):
     with open(file, 'r') as json_file:
         loaded_videos.extend(json.load(json_file))
 
@@ -60,6 +63,11 @@ uploaded_video_set = set([
     "sxsyxwg60kA", "61Hpx-90MWs", "rUZLlzQVsr4", "7Y9fHUOhTMY", "JtQDGdezVjY",
     "6Clbb0ul_qg"
 ])
+
+with open('uploaded.json', 'r') as json_file:
+    uploaded_videos = json.load(json_file)
+uploaded_video_set.update(uploaded_videos)
+
 for video in loaded_videos:
     if video[1] not in uploaded_video_set:
         success = upload_video(video[1])
