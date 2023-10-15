@@ -41,6 +41,7 @@ def search(text: str, data=None):
     for r in response_data:
         video_id = r.get("video_id")
 
+        print(r)
         if video_id and video_id not in grabbed_data:
             data.setdefault(video_id, {})[text] = {
                 "score": r.get("score"),
@@ -80,7 +81,7 @@ videoID_data = search("pro-palestinian", {})
 search("violence", videoID_data)
 import pdb; pdb.set_trace()
 
-with open('search_index.json', 'w') as json_file:
+with open('search_index2.json', 'w') as json_file:
     json.dump(videoID_data, json_file)
 
 

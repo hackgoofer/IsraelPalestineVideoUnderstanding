@@ -85,6 +85,31 @@ function App() {
             ],
           },
         ]}
+        theme={{
+          fontFamily: "Roboto, sans-serif",
+          fontSize: 14,
+          textColor: "#333333",
+          axis: {
+            domain: {
+              line: {
+                stroke: "#777777",
+                strokeWidth: 1,
+              },
+            },
+            ticks: {
+              line: {
+                stroke: "#777777",
+                strokeWidth: 1,
+              },
+            },
+          },
+          grid: {
+            line: {
+              stroke: "#dddddd",
+              strokeWidth: 1,
+            },
+          },
+        }}
       />
     </div>
   );

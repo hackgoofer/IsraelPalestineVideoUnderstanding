@@ -22,7 +22,7 @@ YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
 
-def youtube_search(query, max_results=40, order="relevance", token=None, location=None, location_radius=None):
+def youtube_search(query, max_results=120, order="relevance", token=None, location=None, location_radius=None):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
     videos_map = set()
     videos = []
@@ -34,7 +34,7 @@ def youtube_search(query, max_results=40, order="relevance", token=None, locatio
             q=query,
             relevanceLanguage="en",
             type="video",
-            regionCode='IQ',
+            regionCode='IL',
             pageToken=pageToken,
             order=order,
             part="id,snippet",
@@ -70,7 +70,7 @@ def youtube_search(query, max_results=40, order="relevance", token=None, locatio
                     videos_map.add(videoId)
                     videos.append((title, videoId))
 
-        filename = f'IQ_40/english_videos_{count}.json'
+        filename = f'israel2/english_videos_{count}.json'
         with open(filename, 'w') as json_file:
             json.dump(videos, json_file)
         count += 1
@@ -98,7 +98,7 @@ for file in glob.glob("loaded_videos/*.json"):
         existing_videos.extend(json.load(json_file))
 
 # english_videos = youtube_search("Israel Hamas war")
-english_videos = youtube_search("Israel Palestine Conflict Latest")
+english_videos = youtube_search("Jewish Arabic")
 filtered_english_videos = filter_individuals_videos(english_videos, existing_videos)
 
 
