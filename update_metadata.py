@@ -80,21 +80,27 @@ for filename, videoID in filename_to_videoid.items():
         print(filename)
         print(videoID)
 
-import pdb; pdb.set_trace();
+# import pdb; pdb.set_trace();
 
-for filename, (videoID, youtubeID) in data.items():
-    VIDEOS_URL = f"{API_URL}/indexes/{INDEX_ID}/videos/{videoID}"
-    headers = {
-        "x-api-key": API_KEY
-    }
-    data = {
-        "metadata": {
-            "youtube": youtubeID
-        }
-    }
-    response = requests.put(VIDEOS_URL, headers=headers, json=data)
-    print(f'{videoID}, {youtubeID}: Status code- {response.status_code}')
-    if not 200 <=  response.status_code < 300:
-        import pdb; pdb.set_trace()
-        print(response)
+    
 
+# for filename, (videoID, youtubeID) in data.items():
+#     VIDEOS_URL = f"{API_URL}/indexes/{INDEX_ID}/videos/{videoID}"
+#     headers = {
+#         "x-api-key": API_KEY
+#     }
+#     data = {
+#         "metadata": {
+#             "youtube": youtubeID
+#         }
+#     }
+#     response = requests.put(VIDEOS_URL, headers=headers, json=data)
+#     print(f'{videoID}, {youtubeID}: Status code- {response.status_code}')
+#     if not 200 <=  response.status_code < 300:
+#         import pdb; pdb.set_trace()
+#         print(response)
+
+import json
+v2yIDMap = {videoID: youtubeID for videoID, youtubeID in data.values()}
+with open('v2yIDMap.json', 'w') as json_file:
+    json.dump(v2yIDMap, json_file)

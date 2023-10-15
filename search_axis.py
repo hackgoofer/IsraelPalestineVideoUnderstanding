@@ -42,13 +42,14 @@ def search(text: str, data=None):
         video_id = r.get("video_id")
 
         print(r)
-        if video_id and video_id not in grabbed_data:
+        if video_id and video_id not in grabbed_data and video_id in videoID_to_youtubeID:
             data.setdefault(video_id, {})[text] = {
                 "score": r.get("score"),
                 "start": r.get("start"),
                 "end": r.get("end"),
             }
             grabbed_data.add(video_id)
+            data.setdefault(video_id, {})["youtube"] = videoID_to_youtubeID[video_id]
 
     print(f"grabbed: {len(grabbed_data)}")
 
@@ -65,17 +66,23 @@ def search(text: str, data=None):
         next_page_token = response.json()["page_info"]["next_page_token"]
         for r in response_data:
             video_id = r["video_id"]
-            if video_id and video_id not in grabbed_data:
+            if video_id and video_id not in grabbed_data and video_id in videoID_to_youtubeID:
                 data.setdefault(video_id, {})[text] = {
                     "score": r.get("score"),
                     "start": r.get("start"),
                     "end": r.get("end"),
                 }
+                data.setdefault(video_id, {})["youtube"] = videoID_to_youtubeID[video_id]
             grabbed_data.add(video_id)
         print(f"grabbed: {len(grabbed_data)}")
 
     return data
 
+
+import json
+with open('v2yIDMap.json', 'r') as json_file:
+    videoID_to_youtubeID = json.load(json_file)
+    print(videoID_to_youtubeID)
 
 videoID_data = search("pro-palestinian", {})
 search("violence", videoID_data)
@@ -83,5 +90,6 @@ import pdb; pdb.set_trace()
 
 with open('search_index2.json', 'w') as json_file:
     json.dump(videoID_data, json_file)
+
 
 

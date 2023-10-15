@@ -1,6 +1,6 @@
 import React from "react";
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
-import jsonData from "./search_index.json";
+import jsonData from "./search_index2.json";
 
 const formatDataForNivo = () => {
   let data = jsonData;
@@ -18,8 +18,9 @@ const formatDataForNivo = () => {
       return;
     }
 
+    console.log(data[videoId]["youtube"]);
     formatted_data.push({
-      id: videoId,
+      id: data[videoId]["youtube"],
       data: [
         {
           x: video_data["pro-palestinian"]["score"],
@@ -35,12 +36,30 @@ const formatDataForNivo = () => {
 function App() {
   console.log(formatDataForNivo());
   return (
-    <div className="App" style={{ height: "500px" }}>
+    <div className="App" style={{ height: "500px", marginTop: "600px" }}>
       <ResponsiveScatterPlot
         data={formatDataForNivo()}
         xScale={{ type: "linear", min: 0, max: 100 }}
         yScale={{ type: "linear", min: 0, max: 100 }}
-        tooltip={({ node }) => <p>{"https://www.youtube.com/v=" + node.id}</p>}
+        tooltip={({ node }) => {
+          console.log(node);
+          return (
+            <div>
+              <iframe
+                width="560"
+                height="315"
+                src={
+                  "https://www.youtube.com/embed/" +
+                  node.serieId +
+                  "?autoplay=1"
+                }
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          );
+        }}
         margin={{ top: 60, right: 40, bottom: 70, left: 90 }}
         axisTop={null}
         axisRight={null}
