@@ -1,6 +1,6 @@
 import React from "react";
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
-import jsonData from "./search_index2.json";
+import jsonData from "./search_index4.json";
 
 const formatDataForNivo = () => {
   let data = jsonData;

@@ -53,7 +53,6 @@ def search(text: str, data=None):
 
     print(f"grabbed: {len(grabbed_data)}")
 
-    grabbed_data = set()
     while len(grabbed_data) != 10:
         count += 1
         SEARCH_URL = f"{API_URL}/search/{next_page_token}"
@@ -79,6 +78,13 @@ def search(text: str, data=None):
     return data
 
 
+def normalize(data, key):
+    max_score = max([item[key]['score'] for item in data.values() if key in item])
+    min_score = min([item[key]['score'] for item in data.values() if key in item])
+    for video_id, item in data.items():
+        if key in item:
+            item[key]['score'] = (item[key]['score'] - min_score) / (max_score - min_score) * 100
+
 import json
 with open('v2yIDMap.json', 'r') as json_file:
     videoID_to_youtubeID = json.load(json_file)
@@ -86,9 +92,12 @@ with open('v2yIDMap.json', 'r') as json_file:
 
 videoID_data = search("pro-palestinian", {})
 search("violence", videoID_data)
+normalize(videoID_data, "pro-palestinian")
+normalize(videoID_data, "violence")
+
 import pdb; pdb.set_trace()
 
-with open('search_index2.json', 'w') as json_file:
+with open('search_index4.json', 'w') as json_file:
     json.dump(videoID_data, json_file)
 
 
